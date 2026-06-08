@@ -1,0 +1,12 @@
+langchain
+pandas 
+mysql-connector-python
+pdfplumber
+pymupdf
+requests 
+bs4
+urllib3
+Flask
+markupsafe
+flask_sqlalchemy
+pymysql
