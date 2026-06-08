@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='register.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='quest_logo.png') }}">
+    <title>Registro</title>
+</head>
+<body>
+    <!-- Overlay, fundo escuro centralizado -->
+    <div class="overlay">
+        <div class="login-card">
+            <header>
+                <div class="logo-brand">
+                    <img src="{{ url_for('static', filename='quest_logo.png') }}" alt="logo do site, a letra Q com uma espada atravessando a mesma" class="brand-image">
+                    <span class="brand-text">Quest</span>
+                </div>
+                <p>Estamos alegres com sua presença aqui, faça parte de nossa comunidade!</p>
+            </header>
+
+            <!-- with_categories=true: retorna tupla (categoria, mensagem) -->
+            {% with mensagens = get_flashed_messages(with_categories=true) %}
+                {% if mensagens %}
+                    <div class="messages">
+                        {% for categoria, mensagem in mensagens %}
+                            <!-- Classe "alert-error" ou "alert-success" vem do CSS -->
+                            <p class="alert alert-{{ categoria }}">{{ mensagem }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form action="" method="post">
+                <div class="input-group">
+                    <label>Seu nome</label>
+                    <input type="text" name="nomeForm">
+                    <label>Seu email</label>
+                    <input type="email" name="emailForm">
+                    <label>Sua senha</label>
+                    <input type="password" name="senhaForm">
+                    
+                    <input type="submit" value="Registrar" class="btn-enviar">
+                </div>
+            </form>
+
+            <!--login com Google, funcionalidade futura-->
+            <div class="google-login">
+                <a href="#">Registrar-se com sua conta Google</a>
+            </div>
+
+            <div class="footer-extra">
+                Já possui uma conta? <a href="{{ url_for('login') }}">Faça o seu login</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
