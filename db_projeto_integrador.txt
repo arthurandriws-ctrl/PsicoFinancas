@@ -11,16 +11,27 @@ Nome text not null
  Titulo text not null,
  Descricao text not null
  );
-create table perguntas(
- ID_pergunta int primary key,
+create table respostas(
+ ID_resposta int primary key,
  ID_questionario int,
  constraint ID_questionario foreign key (ID_questionario)
  references questionario(ID_questionario),
- Pergunta text not null,
- Ordem text not null,
- Estado_civil text not null,
- Profissao text not null,
- Renda_mensal bigint not null
+ respostas text not null,
+ Pergunta_01_Vinculo_Senac text not null,
+ Pergunta_02_Idade text not null,
+ Pergunta_03_Renda_Mensal text not null,
+ Pergunta_04_Gastos_Mensais text not null,
+ Pergunta_05_salario_Investido text not null,
+ Pergunta_06_Percade_Investimento text not null,
+ Pergunta_07_Uso_do_dinheiro text not null,
+ Pergunta_08_Patrimonio_Investido text not null,
+ Pergunta_09_Opcoes text not null,
+ Pergunta_10_Gastos_Por_Impulso text not null,
+ Pergunta_11_Decisoes_financeiras text not null,
+ Pergunta_12_Tempo_Investido text not null,
+ Pergunta_13_Reserva_Emergencial text not null,
+ Pergunta_14_Mercado_Financeiro text not null,
+ Pergunta_15_Produtos_Financeiros text not null
  );
 create table perfil(
 ID_perfil int primary key,
@@ -30,7 +41,9 @@ references usuario (ID_usuario),
 Nome text not null,
 Perfil text not null,
 Descricao text not null,
-vinculo text not null
+vinculo text not null,
+Perfil_IA text,
+Analise_IA text
 );
 
 create table resultado(
@@ -40,34 +53,8 @@ constraint ID_perfil_resultado foreign key(ID_perfil)
 references perfil (ID_perfil),
 ID_usuario int,
 constraint ID_usuario_resultado foreign key(ID_usuario)
-references usuario (ID_usuario)
+references usuario (ID_usuario),
+ID_questionario int not null,
+constraint ID_questionario_resultado foreign key(ID_questionario)
+references questionario (ID_questionario)
 );
-
-alter table resultado
-add ID_questionario int not null,
-add constraint ID_questionario_resultado foreign key (ID_questionario)
-references questionario (ID_questionario);
-
-alter table perfil 
-add Perfil_IA text,
-add Analise_IA text;
-
-alter table resultado
-add ID_questionario int not null,
-add constraint ID_questionario_resultado foreign key (ID_questionario)
-references questionario (ID_questionario),
-add Pergunta_01_VinculoSenac text,
-add Pergunta_02_Idade text,
-add Pergunta_03_RendaMensal text,
-add Pergunta_04_GastosMensais text,
-add Pergunta_05_salarioInvestido text,
-add Pergunta_06_PercadeInvestimento text,
-add Pergunta_07_Usododinheiro text,
-add Pergunta_08_PatrimonioInvestido text,
-add Pergunta_09_Opcoes text,
-add Pergunta_10_GastosPorImpulso text,
-add Pergunta_11_Decisoesfinanceiras text,
-add Pergunta_12_TempoInvestido text,
-add Pergunta_13_ReservaEmergencial text,
-add Pergunta_14_MercadoFinanceiro text,
-add Pergunta_15_ProdutosFinanceiros text;
