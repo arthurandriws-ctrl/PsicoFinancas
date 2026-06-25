@@ -1,0 +1,107 @@
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f8f8f8;
+    color:#222;
+}
+
+.container{
+    max-width:900px;
+    margin:40px auto;
+    padding:20px;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:40px;
+}
+.header h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.header p{
+    color:#666;
+    max-width:600px;
+    margin:auto;
+    line-height:1.6;
+}
+
+/* Card principal */
+.card{
+    background:#fff;
+    border-radius:12px;
+    padding:35px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.card-title{
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:30px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+label{
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:600;
+}
+
+input,
+select{
+    height:50px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:0 15px;
+    font-size:15px;
+}
+
+.actions{
+    margin-top:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-top:1px solid #eee;
+    padding-top:25px;
+}
+
+.btn{
+    border:none;
+    padding:12px 28px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.btn-secondary{
+    background:transparent;
+    color:#999;
+}
+
+.btn-primary{
+    background:#222222;
+    color:#fff;
+}
+
+ /* RESPONSIVIDADE */
+    @media(max-width:480px){
+
+        .login-card{
+
+            padding:30px 20px;
+            /* Menor espaçamento em celulares */
+        }
+
+    }
