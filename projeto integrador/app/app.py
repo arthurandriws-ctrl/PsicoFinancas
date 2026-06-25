@@ -28,11 +28,20 @@ def senha_confere(senha_salva, senha_digitada):
 def main():
     return render_template('main.html')
 
+
+"""
+Após conectar a tela de registro, façam a validação da senha!!
+Deixei um rascunho logo abaixo da validação dos campos
+
+Outra coisa:
+Vocês vão modificar o render template para cada rota, rotas: /registrar, /login e criar outras rotas se for necessário.
+"""
+
 # Rota de registro
-@app.route('/registrar', methods=['GET', 'POST'])
+@app.route('/registrar', methods=['GET', 'POST']) 
 def register():
     if request.method == 'GET':
-        return render_template('register.html')
+        return render_template('register.html') #modificar para return render_template('nome da tela de registro da galera do front')
         
     nome = request.form.get('nome', '').strip()
     email = request.form.get('email', '').strip()
