@@ -11,7 +11,7 @@ Nome text not null
  Titulo text not null,
  Descricao text not null
  );
- create table perguntas(
+create table perguntas(
  ID_pergunta int primary key,
  ID_questionario int,
  constraint ID_questionario foreign key (ID_questionario)
@@ -47,3 +47,27 @@ alter table resultado
 add ID_questionario int not null,
 add constraint ID_questionario_resultado foreign key (ID_questionario)
 references questionario (ID_questionario);
+
+alter table perfil 
+add Perfil_IA text,
+add Analise_IA text;
+
+alter table resultado
+add ID_questionario int not null,
+add constraint ID_questionario_resultado foreign key (ID_questionario)
+references questionario (ID_questionario),
+add Pergunta_01_VinculoSenac text,
+add Pergunta_02_Idade text,
+add Pergunta_03_RendaMensal text,
+add Pergunta_04_GastosMensais text,
+add Pergunta_05_salarioInvestido text,
+add Pergunta_06_PercadeInvestimento text,
+add Pergunta_07_Usododinheiro text,
+add Pergunta_08_PatrimonioInvestido text,
+add Pergunta_09_Opcoes text,
+add Pergunta_10_GastosPorImpulso text,
+add Pergunta_11_Decisoesfinanceiras text,
+add Pergunta_12_TempoInvestido text,
+add Pergunta_13_ReservaEmergencial text,
+add Pergunta_14_MercadoFinanceiro text,
+add Pergunta_15_ProdutosFinanceiros text;
