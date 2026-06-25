@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="caminho-da-imagem/favicon.png">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%230d6efd' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5'/%3E%3C/svg%3E">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Formulario 1.css') }}">
+    <title>Mapeamento de Perfil Financeiro</title>
+</head>
+
+<body>
+
+    <!-- Container principal da página -->
+    <div class="container">
+
+        <!-- Cabeçalho da página -->
+        <div class="header">
+
+            <!-- Título principal -->
+            <h1>Mapeamento de Perfil Financeiro</h1>
+
+            <!-- Texto explicativo -->
+            <p>
+                Responda algumas perguntas para entendermos melhor sua situação
+                financeira e objetivos.
+            </p>
+
+        </div>
+
+        <!-- Card contendo o formulário -->
+        <div class="card">
+
+            <!-- Título da seção -->
+            <div class="card-title">
+                Informações Básicas
+            </div>
+
+            <!-- Início do formulário -->
+            <form>
+
+                <!-- Grid para organizar os campos em colunas -->
+                <div class="form-grid">
+
+                    <!-- Campo Idade -->
+                    <div class="form-group">
+                        <label>Idade</label>
+                        <input type="number" placeholder="Ex: 30">
+                    </div>
+
+                    <!-- Campo Estado Civil -->
+                    <div class="form-group">
+                        <label>Estado Civil</label>
+
+                        <select>
+                            <option>Selecione</option>
+                            <option>Solteiro(a)</option>
+                            <option>Casado(a)</option>
+                            <option>Divorciado(a)</option>
+                            <option>Viúvo(a)</option>
+                        </select>
+                    </div>
+
+                    <!-- Campo Número de Dependentes -->
+                    <div class="form-group">
+                        <label>Número de Dependentes</label>
+                        <input type="number" placeholder="Ex: 2">
+                    </div>
+
+                    <!-- Campo Profissão -->
+                    <div class="form-group">
+                        <label>Profissão</label>
+                        <input type="text" placeholder="Ex: Analista de Sistemas">
+                    </div>
+
+                    <!-- Campo ocupando toda a largura da linha -->
+                    <div class="form-group full">
+                        <label>Renda Mensal Bruta</label>
+                        <input type="text" placeholder="R$ 0,00">
+                    </div>
+
+                </div>
+
+                <!-- Área dos botões de navegação -->
+                <div class="actions">
+
+                    <!-- Botão para voltar à etapa anterior -->
+                    <button type="button" class="btn btn-secondary">
+                        Anterior
+                    </button>
+
+                    <!-- Botão para enviar ou avançar -->
+                    <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="window.location.href='formulario 2.html'">
+                            Próximo
+                            </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
