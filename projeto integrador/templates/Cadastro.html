@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="caminho-da-imagem/favicon.png">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%230d6efd' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="cadastro.css">
+    <title>Cadastro</title>
+</head>
+
+<body>
+<!-- Card principal -->
+<div class="register-card">
+
+    <!-- Ícone -->
+    <div class="logo"></div>
+
+    <!-- Título -->
+    <h1 class="title">
+        Criar Conta
+    </h1>
+
+    <!-- Subtítulo -->
+    <p class="subtitle">
+        Preencha os dados para se cadastrar
+    </p>
+
+    <!-- Formulário -->
+    <form id="cadastroForm">
+
+        <!-- Nome -->
+        <div class="form-group">
+
+            <label for="nome">Nome Completo</label>
+
+            <input
+                type="text"
+                id="nome"
+                class="form-control"
+                placeholder="Digite seu nome">
+
+        </div>
+
+        <!-- Linha com 2 campos -->
+        <div class="row">
+
+            <!-- Email -->
+            <div class="form-group">
+
+                <label for="email">E-mail</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    class="form-control"
+                    placeholder="Digite seu e-mail">
+
+            </div>
+
+            <!-- Telefone -->
+            <div class="form-group">
+
+                <label for="telefone">Telefone</label>
+
+                <input
+                    type="tel"
+                    id="telefone"
+                    class="form-control"
+                    placeholder="(11) 99999-9999">
+
+            </div>
+
+        </div>
+
+        <!-- Linha com duas colunas -->
+        <div class="row">
+
+            <!-- Senha -->
+            <div class="form-group">
+
+                <label for="senha">Senha</label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    class="form-control"
+                    placeholder="Digite sua senha">
+
+            </div>
+
+            <!-- Confirmar senha -->
+            <div class="form-group">
+
+                <label for="confirmarSenha">Confirmar Senha</label>
+
+                <input
+                    type="password"
+                    id="confirmarSenha"
+                    class="form-control"
+                    placeholder="Confirme sua senha">
+
+            </div>
+
+        </div>
+
+        <!-- Checkbox -->
+        <div class="terms">
+
+            <input type="checkbox" id="termos">
+
+            <span>
+                Aceito os
+                <a href="termos.html">
+                    Termos de Uso
+                </a>
+            </span>
+
+        </div>
+
+        <!-- Botão -->
+        <button
+            type="submit"
+            class="btn-register">
+
+            Criar Conta
+
+        </button>
+
+    </form>
+
+    <!-- Link para login -->
+    <div class="login-link">
+
+        Já possui uma conta?
+
+        <a href="index.html">
+            Fazer Login
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+    document.getElementById("cadastroForm").addEventListener("submit", function(event){
+
+        event.preventDefault();
+
+        const nome = document.getElementById("nome").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const telefone = document.getElementById("telefone").value.trim();
+        const senha = document.getElementById("senha").value;
+        const confirmarSenha = document.getElementById("confirmarSenha").value;
+        const termos = document.getElementById("termos").checked;
+
+        // Verificar campos vazios
+        if(nome === "" || email === "" || telefone === "" || senha === "" || confirmarSenha === ""){
+            alert("Preencha todos os campos!");
+            return;
+        }
+
+        // Verificar tamanho da senha
+        if(senha.length < 6){
+            alert("A senha deve ter pelo menos 6 caracteres!");
+            return;
+        }
+
+        // Confirmar senha
+        if(senha !== confirmarSenha){
+            alert("As senhas não coincidem!");
+            return;
+        }
+
+        // Verificar termos
+        if(!termos){
+            alert("Você deve aceitar os Termos de Uso!");
+            return;
+        }
+
+        // Salvar usuário
+        const usuario = {
+            nome: nome,
+            email: email,
+            telefone: telefone,
+            senha: senha
+        };
+
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+
+        alert("Cadastro realizado com sucesso!");
+
+        // Redireciona para login
+        window.location.href = "index.html";
+
+    });
+
+</script>
+
+</body>
+</html>
