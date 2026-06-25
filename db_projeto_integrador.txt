@@ -58,3 +58,5 @@ ID_questionario int not null,
 constraint ID_questionario_resultado foreign key(ID_questionario)
 references questionario (ID_questionario)
 );
+
+
