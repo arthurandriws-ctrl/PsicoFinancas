@@ -1,0 +1,49 @@
+create database projeto_integrador;
+
+create table usuario(
+Email text not null,
+Senha int not null,
+ID_usuario int primary key,
+Nome text not null
+);
+ create table questionario(
+ ID_questionario int primary key,
+ Titulo text not null,
+ Descricao text not null
+ );
+ create table perguntas(
+ ID_pergunta int primary key,
+ ID_questionario int,
+ constraint ID_questionario foreign key (ID_questionario)
+ references questionario(ID_questionario),
+ Pergunta text not null,
+ Ordem text not null,
+ Estado_civil text not null,
+ Profissao text not null,
+ Renda_mensal bigint not null
+ );
+create table perfil(
+ID_perfil int primary key,
+ID_usuario int,
+constraint ID_usuario foreign key (ID_usuario)
+references usuario (ID_usuario),
+Nome text not null,
+Perfil text not null,
+Descricao text not null,
+vinculo text not null
+);
+
+create table resultado(
+ID_resultado int primary key,
+ID_perfil int,
+constraint ID_perfil_resultado foreign key(ID_perfil)
+references perfil (ID_perfil),
+ID_usuario int,
+constraint ID_usuario_resultado foreign key(ID_usuario)
+references usuario (ID_usuario)
+);
+
+alter table resultado
+add ID_questionario int not null,
+add constraint ID_questionario_resultado foreign key (ID_questionario)
+references questionario (ID_questionario);
