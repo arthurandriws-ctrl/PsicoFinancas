@@ -4,10 +4,14 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #importação do arquivo db.py
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from db import SessionLocal, engine, Base, conectar
 from models import Usuario
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.secret_key = 'chave_secreta'
 
 # Garante a criação das tabelas usando o engine importado
