@@ -1,5 +1,7 @@
-# app.py
-from flask import Flask, render_template, request, redirect, url_for, flash
+import re
+
+from flask import Flask, render_template, request, redirect, url_for, flash, session as flask_session
+from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -14,6 +16,8 @@ from models import Usuario
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.secret_key = 'chave_secreta'
 
+EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
 # Garante a criação das tabelas usando o engine importado
 Base.metadata.create_all(bind=engine)
 
@@ -23,64 +27,87 @@ def senha_confere(senha_salva, senha_digitada):
     except ValueError:
         return senha_salva == senha_digitada
 
-# Rota primária 
+
+def login_obrigatorio(view_func):
+    def wrapper(*args, **kwargs):
+        if not flask_session.get('usuario_id'):
+            flash('Faça login para acessar esta área', 'error')
+            return redirect(url_for('login'))
+        return view_func(*args, **kwargs)
+    wrapper.__name__ = view_func.__name__
+    return wrapper
+
+# Rota primária
 @app.route('/')
+def index():
+    return redirect(url_for('login'))
+
+@app.route('/main')
 def main():
     return render_template('main.html')
 
-
-"""
-Após conectar a tela de registro, façam a validação da senha!!
-Deixei um rascunho logo abaixo da validação dos campos
-
-Outra coisa:
-Vocês vão modificar o render template para cada rota, rotas: /registrar, /login e criar outras rotas se for necessário.
-"""
+@app.route('/perfil')
+@login_obrigatorio
+def perfil():
+    return render_template('perfil.html', usuario_nome=flask_session.get('usuario_nome'))
 
 # Rota de registro
 @app.route('/registrar', methods=['GET', 'POST']) 
 def register():
     if request.method == 'GET':
-        return render_template('register.html') #modificar para return render_template('nome da tela de registro da galera do front')
+        return render_template('cadastro.html')
         
     nome = request.form.get('nome', '').strip()
     email = request.form.get('email', '').strip()
-    senha = request.form.get('senhaForm', '').strip() 
+    senha = request.form.get('senhaForm', '').strip()
+    confirmar_senha = request.form.get('confirmarSenha', '').strip()
+    termos = request.form.get('termos')
 
-    if not nome or not email or not senha:
+    if not nome or not email or not senha or not confirmar_senha:
         flash('Por favor, preencha todos os campos', 'error')
-        return render_template('register.html')
+        return render_template('cadastro.html')
+
+    if not EMAIL_REGEX.match(email):
+        flash('Informe um e-mail válido', 'error')
+        return render_template('cadastro.html')
 
     if len(senha) < 8:
         flash('A senha deve ter no mínimo 8 caracteres', 'error')
-        return render_template('register.html')
+        return render_template('cadastro.html')
 
-    # Usando a SessionLocal do SQLAlchemy para as consultas do usuário
-    session = SessionLocal()
-    usuario_existente = session.query(Usuario).filter_by(email=email).first() 
-    if usuario_existente:
-        flash('Este email já está registrado', 'error')
-        session.close()
-        return render_template('register.html')
+    if senha != confirmar_senha:
+        flash('As senhas não conferem', 'error')
+        return render_template('cadastro.html')
 
-    usuario_existente = session.query(Usuario).filter_by(nome=nome).first() 
-    if usuario_existente:
-        flash('Este nome de usuário já existe', 'error')
-        session.close()
-        return render_template('register.html')
+    if termos != 'on':
+        flash('Você precisa aceitar os termos para se cadastrar', 'error')
+        return render_template('cadastro.html')
 
-    senha_hash = generate_password_hash(senha)
-    new_user = Usuario(nome=nome, email=email, senha=senha_hash)
-    session.add(new_user)
+    email_normalizado = email.lower()
+    nome_normalizado = nome.lower()
 
+    db_session = SessionLocal()
     try:
-        session.commit()
+        usuario_existente = db_session.query(Usuario).filter(func.lower(Usuario.email) == email_normalizado).first()
+        if usuario_existente:
+            flash('Este email já está registrado', 'error')
+            return render_template('cadastro.html')
+
+        usuario_existente = db_session.query(Usuario).filter(func.lower(Usuario.nome) == nome_normalizado).first()
+        if usuario_existente:
+            flash('Este nome de usuário já existe', 'error')
+            return render_template('cadastro.html')
+
+        senha_hash = generate_password_hash(senha)
+        new_user = Usuario(nome=nome, email=email_normalizado, senha=senha_hash)
+        db_session.add(new_user)
+        db_session.commit()
     except IntegrityError:
-        session.rollback()
+        db_session.rollback()
         flash('Nome ou email já cadastrado', 'error')
-        return render_template('register.html')
+        return render_template('cadastro.html')
     finally:
-        session.close()
+        db_session.close()
 
     flash('Usuário registrado com sucesso! Faça login', 'success')
     return redirect(url_for('login'))
@@ -89,23 +116,27 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('index.html')
 
-    nome = request.form.get('nomeForm', '').strip()
-    email = request.form.get('emailForm', '').strip()
-    senha = request.form.get('senhaForm', '')
+    email = request.form.get('emailForm', '').strip().lower()
+    senha = request.form.get('senhaForm', '').strip()
 
-    if not nome or not email or not senha:
+    if not email or not senha:
         flash('Por favor, preencha todos os campos', 'error')
-        return render_template('login.html')
+        return render_template('index.html')
 
-    session = SessionLocal()
-    usuario = session.query(Usuario).filter_by(nome=nome, email=email).first()
-    session.close()
+    db_session = SessionLocal()
+    try:
+        usuario = db_session.query(Usuario).filter(func.lower(Usuario.email) == email).first()
+    finally:
+        db_session.close()
 
     if usuario is None or not senha_confere(usuario.senha, senha):
-        flash('Usuário não encontrado', 'error')
-        return render_template('login.html')
+        flash('E-mail ou senha inválidos', 'error')
+        return render_template('index.html')
+
+    flask_session['usuario_id'] = usuario.id
+    flask_session['usuario_nome'] = usuario.nome
 
     flash(f'Bem-vindo, {usuario.nome}!', 'success')
     return redirect(url_for('main'))
