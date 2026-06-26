@@ -4,7 +4,7 @@ Possui como objetivo a análise do Perfil Financeiro do usuário com base na col
 o perfil final com base nas respostas obtidas e contando também com uma inteligência artificial que explica melhor sobre o resultado e oferta dicas
 de como se tornar uma pessoa financeiramente responsável.
 
-###  🗂️ Organização das pastas
+###  🗂️ Organização das pastas (atualizar)
 ```
 ├── app
 │   ├── __pycache__
