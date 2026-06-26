@@ -49,7 +49,7 @@
                     </li>
                     
                     <li class="nav-item ms-lg-2">
-                        <a class="btn btn-primary px-4" href="{{ url_for('responder') if session.get('usuario_id') else url_for('login') }}">Começar agora</a>
+                        <a class="btn btn-primary px-4" href="{{ url_for('main') if session.get('usuario_id') else url_for('login') }}">Começar agora</a>
                     </li>
                 </ul>  
             </div>
@@ -141,7 +141,9 @@
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                     <div class="accordion-body">
-                        Saber o seu perfil é o diagnóstico; agora começa o tratamento! Junto com o resultado do seu perfil, você receberá um plano de ação prático dividido em três etapas básicas:
+                        Saber o seu perfil 
+                        
+                        é o diagnóstico; agora começa o tratamento! Junto com o resultado do seu perfil, você receberá um plano de ação prático dividido em três etapas básicas:
                         <ol>
                             <li><b>O que parar de fazer:</b> Identificamos o seu maior "ponto cego" financeiro (ex: compras por impulso ou medo de investir) para você estancar o sangramento de dinheiro.</li>
                             <li><b>Onde focar:</b> Sugestões de produtos financeiros ou métodos de organização ideais para o seu nível de tolerância ao risco.</li>
