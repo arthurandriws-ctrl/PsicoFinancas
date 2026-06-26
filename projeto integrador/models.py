@@ -5,42 +5,65 @@ from sqlalchemy.sql import func
 from db import Base, engine  # Importa a Base unificada
 
 # Alterado para herdar de Base
-class Usuario(Base):
-    __tablename__ = 'usuarios'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    nome = Column(String(50), nullable=False, unique=True)
+class usuario(Base):
+    __tablename__ = 'usuario'
     email = Column(String(50), nullable=False, unique=True)
-    senha = Column(String(255), nullable=False)
-
-class Respondente(Base): 
-    __tablename__ = "respondente" 
-    id = Column(Integer, primary_key=True, autoincrement=True) 
-    faixa_etaria = Column(String(20)) 
+    senha = Column(String(25), nullable=False)
+    id_usuario = Column(Integer, primary_key=True, autoincrement=True)
+    nome = Column(String(50), nullable=False, unique=True)
+    respostas = relationship("repostas", back_populates="usuario")
+    perfil = relationship("perfil", back_populates="usuario") 
+    resultado = relationship("resultado", back_populates="usuario'")
+  
+class respostas(Base): 
+    __tablename__ = "respostas" 
+    id_resposta = Column(Integer, primary_key=True, autoincrement=True) 
+    id_usuario = Column(Integer, ForeignKey("usuario.id_usuario")) 
     vinculo_senac = Column(String(30)) 
+    faixa_etaria = Column(String(20)) 
     renda_mensal = Column(String(30)) 
     data_resposta = Column(DateTime, server_default=func.now()) 
-    resposta = relationship("Resposta", back_populates="respondente", uselist=False) 
-  
-class Resposta(Base): 
-    __tablename__ = "resposta" 
-    id = Column(Integer, primary_key=True, autoincrement=True) 
-    id_respondente = Column(Integer, ForeignKey("respondente.id")) 
-    anotacao_gastos = Column(String(20)) 
-    gasta_mais_que_ganha = Column(String(20)) 
-    categoria_gasto = Column(String(30)) 
-    compra_impulso = Column(String(20)) 
-    tem_orcamento = Column(String(30)) 
-    reserva_emergencia = Column(String(40)) 
-    controle_financeiro = Column(Integer)        # nota de 1 a 5 
-    tem_divida = Column(String(30)) 
-    poupa_mensalmente = Column(String(30)) 
-    ja_investiu = Column(String(30)) 
-    objetivo_financeiro = Column(String(40)) 
-    perfil_risco = Column(String(20)) 
+    gastos_mensais = Column(String(20)) 
+    salario_ivestido = Column(String(20)) 
+    perca_de_investimento = Column(String(30)) 
+    uso_do_dinheiro = Column(String(20)) 
+    patrimonio_investido = Column(String(30)) 
+    opcoes = Column(String(40)) 
+    gastos_por_impulso = Column(String(40))        # nota de 1 a 5 
+    decisoes_financeiras = Column(String(30)) 
+    tempo_investido = Column(String(30)) 
+    reserva_emergencial = Column(String(30)) 
+    mercado_financeiro = Column(String(40)) 
+    produtos_financeiros = Column(String(40)) 
     perfil_ia = Column(String(20))               # preenchido pela IA 
     analise_ia = Column(Text)                    # preenchido pela IA 
-    respondente = relationship("Respondente", back_populates="resposta") 
+    usuario = relationship("usuario", back_populates="respostas") 
     
-if __name__ == "__main__": 
-    Base.metadata.create_all(engine) 
-    print("Todas as tabelas (incluindo usuarios) criadas com sucesso!")
+class perfil(Base):
+    __tablename__ = "perfil"
+    id_perfil = Column(Integer,primary_key=True,autoincrement=True)
+    id_usuario = Column(Integer, ForeignKey("usuario.id_usuario")) 
+    nome = Column(String(20))
+    perfil = Column(String(20))
+    descricao = Column(String(40))
+    vinculo = Column(String(20))
+    perfil_ia = Column(String(40))
+    analise_ia = Column(Text)
+    usuario = relationship("usuario", back_populates="perfil") 
+    resultado = relationship("resultado", back_populates="perfil") 
+
+class resultado(Base):
+    __tablename__ = "resultado"
+    id_resultado = Column(Integer, primary_key=True,autoincrement=True)
+    id_perfil = Column(Integer , ForeignKey("perfil.id_perfil"))
+    id_usuario = Column(Integer, ForeignKey("usuario.id_usuario")) 
+    perfil = relationship("perfil", back_populates="resultado") 
+    usuario = relationship("usuario", back_populates="resultado")
+
+
+
+
+
+
+
+
