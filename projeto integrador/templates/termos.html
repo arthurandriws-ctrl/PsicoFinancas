@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="caminho-da-imagem/favicon.png">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%230d6efd' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5'/%3E%3C/svg%3E">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='termos.css') }}">
+    <title>Termo de Autorização</title>
+</head>
+<body>
+
+    <div class="container">
+        <div style="text-align: center;">
+            <h2>TERMO DE AUTORIZAÇÃO PARA COMPARTILHAMENTO DE RESPOSTAS</h2>
+        </div>
+
+        <p style="text-align: center;">
+            Ao utilizar este site, você autoriza que as respostas e informações
+            enviadas por meio da plataforma sejam compartilhadas com os criadores
+            e administradores do site exclusivamente para fins de visualização,
+            análise e monitoramento do desempenho da plataforma.
+        </p>
+
+        <p style="text-align: center;">
+            Esse acesso tem como objetivo verificar se o site está funcionando
+            corretamente, identificar possíveis falhas e promover melhorias na
+            experiência de uso.
+        </p>
+
+        <p style="text-align: center;">
+            As informações não serão utilizadas para finalidades diferentes das
+            descritas neste termo, salvo quando exigido por lei ou mediante nova
+            autorização do usuário.
+        </p>
+
+        <p style="text-align: center;">
+            Ao continuar utilizando o site, você declara estar ciente e de acordo
+            com os termos acima.
+        </p>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn-voltar" type="button" onclick="window.location.href='{{ url_for('recuperacao') }}'">
+                VOLTAR
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
