@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="caminho-da-imagem/favicon.png">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%230d6efd' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5'/%3E%3C/svg%3E">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <title>Login</title>
 </head>
 
@@ -27,8 +27,18 @@
             Faça login para acessar sua conta
         </p>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <!-- Formulário -->
-        <form id="loginForm">
+        <form id="loginForm" action="{{ url_for('login') }}" method="post">
 
             <!-- Campo Email -->
             <div class="form-group">
@@ -39,6 +49,7 @@
 
                 <input
                     type="email"
+                    name="emailForm"
                     id="email"
                     class="form-control"
                     placeholder="Digite seu e-mail"
@@ -55,6 +66,7 @@
 
                 <input
                     type="password"
+                    name="senhaForm"
                     id="senha"
                     class="form-control"
                     placeholder="Digite sua senha"
@@ -80,58 +92,26 @@
             <button
                 type="submit"
                 class="btn-login">
-                <a href="main.html"></a>
-
                 Entrar
-
             </button>
 
         </form>
 
         <!-- Separador -->
-        <div class="divider">
-            
-        </div>
+        <div class="divider"></div>
 
         <!-- Cadastro -->
         <div class="register">
 
             Não possui conta?
 
-            <a href="cadastro.html">
+            <a href="{{ url_for('register') }}">
                 Criar conta
             </a>
 
         </div>
 
     </div>
-
-    <script>
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-
-            event.preventDefault();
-
-            const email = document.getElementById("email").value.trim();
-            const senha = document.getElementById("senha").value.trim();
-
-            // Usuário de teste
-            const emailCorreto = "admin@email.com";
-            const senhaCorreta = "123456";
-
-            if (email === "" || senha === "") {
-                alert("Preencha todos os campos!");
-                return;
-            }
-
-            if (email === emailCorreto && senha === senhaCorreta) {
-                alert("Login realizado com sucesso!");
-                window.location.href = "1 de 3.html";
-            } else {
-                alert("E-mail ou senha inválidos!");
-            }
-
-        });
-    </script>
 
 </body>
 </html>
