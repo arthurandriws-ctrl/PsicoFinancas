@@ -27,8 +27,18 @@
         Preencha os dados para se cadastrar
     </p>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <!-- Formulário -->
-    <form id="cadastroForm">
+    <form id="cadastroForm" action="{{ url_for('register') }}" method="post">
 
         <!-- Nome -->
         <div class="form-group">
@@ -37,9 +47,11 @@
 
             <input
                 type="text"
+                name="nome"
                 id="nome"
                 class="form-control"
-                placeholder="Digite seu nome">
+                placeholder="Digite seu nome"
+                required>
 
         </div>
 
@@ -53,9 +65,11 @@
 
                 <input
                     type="email"
+                    name="email"
                     id="email"
                     class="form-control"
-                    placeholder="Digite seu e-mail">
+                    placeholder="Digite seu e-mail"
+                    required>
 
             </div>
 
@@ -66,9 +80,13 @@
 
                 <input
                     type="tel"
+                    name="telefone"
                     id="telefone"
                     class="form-control"
-                    placeholder="(11) 99999-9999">
+                    placeholder="(11) 99999-9999"
+                    maxlength="15"
+                    inputmode="numeric"
+                    pattern="\(\d{2}\) \d{5}-\d{4}">
 
             </div>
 
@@ -84,9 +102,11 @@
 
                 <input
                     type="password"
+                    name="senhaForm"
                     id="senha"
                     class="form-control"
-                    placeholder="Digite sua senha">
+                    placeholder="Digite sua senha"
+                    required>
 
             </div>
 
@@ -97,9 +117,11 @@
 
                 <input
                     type="password"
+                    name="confirmarSenha"
                     id="confirmarSenha"
                     class="form-control"
-                    placeholder="Confirme sua senha">
+                    placeholder="Confirme sua senha"
+                    required>
 
             </div>
 
@@ -108,7 +130,7 @@
         <!-- Checkbox -->
         <div class="terms">
 
-            <input type="checkbox" id="termos">
+            <input type="checkbox" id="termos" name="termos" required>
 
             <span>
                 Aceito os
@@ -135,7 +157,7 @@
 
         Já possui uma conta?
 
-        <a href="index.html">
+        <a href="{{ url_for('main') }}">
             Fazer Login
         </a>
 
@@ -144,59 +166,28 @@
 </div>
 
 <script>
+    const telefoneInput = document.getElementById('telefone');
 
-    document.getElementById("cadastroForm").addEventListener("submit", function(event){
-
-        event.preventDefault();
-
-        const nome = document.getElementById("nome").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const telefone = document.getElementById("telefone").value.trim();
-        const senha = document.getElementById("senha").value;
-        const confirmarSenha = document.getElementById("confirmarSenha").value;
-        const termos = document.getElementById("termos").checked;
-
-        // Verificar campos vazios
-        if(nome === "" || email === "" || telefone === "" || senha === "" || confirmarSenha === ""){
-            alert("Preencha todos os campos!");
-            return;
+    function formatTelefone(value) {
+        const digits = value.replace(/\D/g, '').slice(0, 11);
+        if (digits.length <= 2) return digits;
+        if (digits.length <= 7) {
+            return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
         }
+        return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+    }
 
-        // Verificar tamanho da senha
-        if(senha.length < 6){
-            alert("A senha deve ter pelo menos 6 caracteres!");
-            return;
-        }
-
-        // Confirmar senha
-        if(senha !== confirmarSenha){
-            alert("As senhas não coincidem!");
-            return;
-        }
-
-        // Verificar termos
-        if(!termos){
-            alert("Você deve aceitar os Termos de Uso!");
-            return;
-        }
-
-        // Salvar usuário
-        const usuario = {
-            nome: nome,
-            email: email,
-            telefone: telefone,
-            senha: senha
-        };
-
-        localStorage.setItem("usuario", JSON.stringify(usuario));
-
-        alert("Cadastro realizado com sucesso!");
-
-        // Redireciona para login
-        window.location.href = "index.html";
-
+    telefoneInput.addEventListener('input', function (event) {
+        const cursorPosition = event.target.selectionStart;
+        event.target.value = formatTelefone(event.target.value);
+        event.target.setSelectionRange(event.target.value.length, event.target.value.length);
     });
 
+    telefoneInput.addEventListener('paste', function (event) {
+        event.preventDefault();
+        const paste = (event.clipboardData || window.clipboardData).getData('text');
+        event.target.value = formatTelefone(paste);
+    });
 </script>
 
 </body>
