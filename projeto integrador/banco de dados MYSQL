@@ -1,0 +1,56 @@
+create database projeto_integrador;
+
+create table usuario(
+email varchar(50) not null,
+senha varchar(25) not null,
+id_usuario int primary key auto_increment,
+nome varchar(50) not null
+);
+
+create table respostas (
+id_resposta int primary key auto_increment,
+id_usuario int,
+constraint id_usuario_respostas foreign key (id_usuario)
+references usuario(id_usuario),
+vinculo_senac varchar(30) not null,
+faixa_etaria int not null,
+renda_mensal varchar(30),
+data_resposta dateTime ,
+gastos_mensais varchar(20),
+salario_investido varchar(20),
+perca_de_investimento varchar(30),
+uso_do_dinheiro varchar(20),
+patrimonio_investido varchar(30),
+opcoes varchar(40),
+gastos_por_impulso varchar(40),
+decisoes_financeiras varchar(30),
+tempo_investido varchar(30),
+reserva_emergencial varchar(30),
+mercado_financeiro varchar(40),
+produtos_financeiros varchar(40),
+perfil_ia varchar(20),
+analise_ia text 
+);
+
+create table perfil(
+id_perfil int primary key auto_increment,
+id_usuario int,
+constraint id_usuario_perfil foreign key (id_usuario)
+references usuario(id_usuario),
+nome varchar(20),
+perfil varchar(20),
+descricao varchar(40),
+vinculo varchar(20),
+perfil_ia varchar(40),
+analise_ia text
+);
+
+create table resultado(
+id_resultado int primary key auto_increment,
+id_perfil int,
+constraint id_perfil_resultado foreign key(id_perfil)
+references perfil(id_perfil),
+id_usuario int,
+constraint id_usuario_resultado foreign key(id_usuario)
+references usuario(id_usuario)
+)
