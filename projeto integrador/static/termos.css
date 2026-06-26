@@ -27,3 +27,18 @@ p {
     text-align: justify;
     margin-bottom: 20px;
 }
+
+.botoes{
+    display:flex;
+    justify-content:space-between;
+    margin-top:30px;
+    border-top:1px solid #eee;
+    padding-top:20px;
+}
+
+.btn-voltar{
+    background:white;
+    border:none;
+    color:#999;
+    cursor:pointer;
+}
