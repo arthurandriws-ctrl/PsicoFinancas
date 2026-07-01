@@ -43,3 +43,12 @@ Abra sua IDE, vá em View(visualizar) e depois abra um novo terminal e copie o c
 ```Bash 
 pip insrall -r requirements.txt
 ```
+
+## Configuração da chave api (.env)
+- Vs Code: <br> 
+Abra sua IDE, e crie um novo arquivo chamado .env, nele você vai colocar sua chave api da Google
+
+O que colocar no .env:
+```Bash 
+GEMINI_API_KEY= sua_chave_api
+```
