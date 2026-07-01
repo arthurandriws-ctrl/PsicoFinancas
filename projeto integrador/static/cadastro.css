@@ -1,0 +1,195 @@
+ *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /*  CORPO DA PÁGINA */
+    body{
+
+        background:#f3f4f6;
+        /* Fundo cinza claro */
+
+        min-height:100vh;
+        /* Altura total da tela */
+
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        /* Centraliza o card */
+
+        padding:20px;
+    }
+
+    /* CARD DE CADASTRO */
+    .register-card{
+
+        width:100%;
+        max-width:500px;
+
+        background:#fff;
+
+        border-radius:15px;
+
+        padding:40px;
+
+        box-shadow:0 4px 15px rgba(0,0,0,0.08);
+    }
+    
+    .title{
+        text-align:center;
+        color:#222;
+        margin-bottom:10px;
+    }
+
+    /* SUBTÍTULO */
+    .subtitle{
+
+        text-align:center;
+
+        color:#777;
+
+        font-size:14px;
+
+        margin-bottom:30px;
+    }
+
+    /* GRUPO DE CAMPOS*/
+    .form-group{
+        margin-bottom:18px;
+    }
+
+    /* Texto acima dos inputs */
+    .form-group label{
+
+        display:block;
+
+        margin-bottom:8px;
+
+        font-size:14px;
+
+        font-weight:bold;
+
+        color:#444;
+    }
+
+    /* INPUTS */
+    .form-control{
+
+        width:100%;
+
+        padding:14px;
+
+        border:1px solid #d1d5db;
+
+        border-radius:8px;
+
+        font-size:14px;
+
+        outline:none;
+
+        transition:0.3s;
+    }
+
+    /* Quando clicar no campo */
+    .form-control:focus{
+
+        border-color:#1a0aa5;
+
+        box-shadow:0 0 0 3px rgba(245,158,11,0.15);
+    }
+
+    /* LINHA COM DUAS COLUNAS*/
+    .row{
+
+        display:grid;
+
+        grid-template-columns:1fr 1fr;
+
+        gap:15px;
+    }
+
+    /* CHECKBOX */
+    .terms{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:10px;
+
+        font-size:14px;
+
+        margin:20px 0;
+    }
+
+    .terms a{
+
+        color: rgb(52, 52, 255);
+
+        text-decoration:none;
+
+        font-weight:bold;
+    }
+
+    /*  BOTÃO CADASTRAR */
+    .btn-register{
+
+        width:100%;
+
+        background:#1505aa;
+
+        color:white;
+
+        border:none;
+
+        padding:14px;
+
+        border-radius:8px;
+
+        font-size:15px;
+
+        font-weight:bold;
+
+        cursor:pointer;
+
+        transition:0.3s;
+    }
+
+    .btn-register:hover{
+        background:#2d06d9;
+    }
+
+    /* LINK LOGIN */
+    .login-link{
+
+        text-align:center;
+
+        margin-top:25px;
+
+        color:#666;
+
+        font-size:14px;
+    }
+
+    .login-link a{
+
+        color: rgb(52, 52, 255);
+
+        text-decoration:none;
+
+        font-weight:bold;
+    }
+
+    /*  RESPONSIVO*/
+    @media(max-width:600px){
+
+        .row{
+            grid-template-columns:1fr;
+        }
+
+        .register-card{
+            padding:30px 25px;
+        }
+    }
