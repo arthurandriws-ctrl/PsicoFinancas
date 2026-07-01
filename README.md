@@ -29,7 +29,7 @@ de como se tornar uma pessoa financeiramente responsável.
 │   └── recuperacao.html
 │   └── style.html
 │   └── termos.html
-├── .env
+├── teste
 ├── db.py
 ├── ia.py
 ├── models.py
