@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="caminho-da-imagem/favicon.png">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%230d6efd' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5'/%3E%3C/svg%3E">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Formulario 3.css') }}">
+    <title>Mapeamento de Perfil Financeiro</title>
+
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Cabeçalho -->
+
+    <div class="header">
+
+        <h1>Mapeamento de Perfil Financeiro</h1>
+
+        <p>
+            Responda algumas perguntas para entendermos melhor seu perfil financeiro e objetivos
+        </p>
+
+    </div>
+
+    <!-- Card -->
+
+    <div class="card">
+
+        <h2> Objetivos Financeiros</h2>
+
+        <!-- Pergunta 12 (Objetivos) -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('formulario3') }}" method="post" onsubmit="return validarObjetivos();">
+        <div class="grupo">
+
+            <label class="titulo">
+                Qual seu principal objetivo financeiro de longo prazo?
+            </label>
+
+            <div class="opcao">
+                <input type="checkbox" name="objetivos" value="Formar reserva de emergência" {% if 'Formar reserva de emergência' in form_data.get('objetivos', []) %}checked{% endif %}>
+                <span>Formar reserva de emergência</span>
+            </div>
+
+            <div class="opcao">
+                <input type="checkbox" name="objetivos" value="Comprar um imóvel" {% if 'Comprar um imóvel' in form_data.get('objetivos', []) %}checked{% endif %}>
+                <span>Comprar um imóvel</span>
+            </div>
+
+            <div class="opcao">
+                <input type="checkbox" name="objetivos" value="Planejar aposentadoria" {% if 'Planejar aposentadoria' in form_data.get('objetivos', []) %}checked{% endif %}>
+                <span>Planejar aposentadoria</span>
+            </div>
+
+            <div class="opcao">
+                <input type="checkbox" name="objetivos" value="Educação própria ou dos filhos" {% if 'Educação própria ou dos filhos' in form_data.get('objetivos', []) %}checked{% endif %}>
+                <span>Educação própria ou dos filhos</span>
+            </div>
+
+            <div class="opcao">
+                <input type="checkbox" name="objetivos" value="Viajar ou lazer" {% if 'Viajar ou lazer' in form_data.get('objetivos', []) %}checked{% endif %}>
+                <span>Viajar ou lazer</span>
+            </div>
+
+        </div>    
+
+        <!-- Pergunta 13 (Prazo) -->
+
+        <div class="grupo">
+
+            <label class="titulo">
+                Em quanto tempo pretende atingir seus principais objetivos financeiros?
+            </label>
+
+            <select name="prazo_objetivos" required>
+                <option value="">Selecione</option>
+                <option value="Menos de 1 ano" {% if form_data.get('prazo_objetivos', '') == 'Menos de 1 ano' %}selected{% endif %}>Menos de 1 ano</option>
+                <option value="1 a 3 anos" {% if form_data.get('prazo_objetivos', '') == '1 a 3 anos' %}selected{% endif %}>1 a 3 anos</option>
+                <option value="3 a 5 anos" {% if form_data.get('prazo_objetivos', '') == '3 a 5 anos' %}selected{% endif %}>3 a 5 anos</option>
+                <option value="5 a 10 anos" {% if form_data.get('prazo_objetivos', '') == '5 a 10 anos' %}selected{% endif %}>5 a 10 anos</option>
+                <option value="Mais de 10 anos" {% if form_data.get('prazo_objetivos', '') == 'Mais de 10 anos' %}selected{% endif %}>Mais de 10 anos</option>
+            </select>
+
+        </div>
+
+        <!-- Botões -->
+
+        <div class="botoes">
+
+            <button
+                class="btn-voltar"
+                type="button"
+                onclick="window.location.href='{{ url_for('formulario2') }}'">
+
+                Anterior
+
+            </button>
+
+            <button
+                class="btn-finalizar"
+                type="submit">
+
+                Finalizar
+
+            </button>
+
+        </div>
+
+        </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function validarObjetivos() {
+    const objetivos = document.querySelectorAll('input[name="objetivos"]');
+    const algumSelecionado = Array.from(objetivos).some((checkbox) => checkbox.checked);
+
+    if (!algumSelecionado) {
+        alert('Selecione pelo menos um objetivo financeiro.');
+        return false;
+    }
+
+    return true;
+}
+</script>
+</body>
+</html>
