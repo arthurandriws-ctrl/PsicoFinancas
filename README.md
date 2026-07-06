@@ -56,3 +56,7 @@ GEMINI_API_KEY= sua_chave_api
 
 **`📸 Exemplo de resultado`**
 <img width="881" height="1011" alt="Image" src="https://github.com/user-attachments/assets/ce0c32f1-b2c8-418a-b618-e0abbb0f6ec4" />
+
+<br>
+
+**`📸 Exemplo de Dashboard`**
