@@ -21,6 +21,7 @@ de como se tornar uma pessoa financeiramente responsável.
 │   └── termos.css
 ├── templates
 │   └── cadastro.html
+│   └── dashboard.html
 │   └── formulario1.html
 │   └── formulario2.html
 │   └── formulario3.html
