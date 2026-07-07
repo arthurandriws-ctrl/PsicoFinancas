@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%230d6efd' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5'/%3E%3C/svg%3E">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu Perfil Financeiro</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; color: #333; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .badge { background: #0d6efd; color: white; padding: 5px 15px; border-radius: 20px; display: inline-block; font-weight: bold; }
+        .progress { background: #e9ecef; border-radius: 5px; height: 15px; margin-top: 5px; }
+        .progress-bar { background: #0d6efd; height: 100%; border-radius: 5px; }
+        .investment { margin-bottom: 15px; }
+        .line { display: flex; justify-content: space-between; }
+        .recommendation { display: flex; margin-bottom: 10px; align-items: center; }
+        .number { background: #0d6efd; color: white; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-weight: bold; }
+        .feature-item { margin-bottom: 8px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+            <h1 style="margin-bottom: 5px;">Resultado da Análise</h1>
+            <p style="margin: 0;">Aqui está o seu diagnóstico comportamental e financeiro:</p>
+        </div>
+        <a href="{{ url_for('main') }}" style="background: #0d6efd; color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: bold;">Voltar ao início</a>
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <span>Seu perfil é:</span>
+        <span id="perfilBadge" class="badge">{{perfil}}</span>
+    </div>
+
+    <h3>Descrição do Perfil</h3>
+    <p id="perfilDescricao"></p>
+    <hr>
+
+    <h3>Análise Detalhada da IA</h3>
+    <div id="analiseIA" style="background: #f8f9fa; padding: 15px; border-left: 4px solid #0d6efd; white-space: pre-line;">
+    </div>
+
+    <div id="perfilData" data-perfil="{{ perfil | e }}" style="display:none;">{{ analise | e }}</div>
+
+    <hr>
+
+    <h3>Suas Características</h3>
+    <div id="caracteristicas"></div>
+
+    <hr>
+
+    <h3>Sugestão de Alocação de Investimentos</h3>
+    <div id="investimentos"></div>
+
+    <hr>
+
+    <h3>Próximos Passos Recomendados</h3>
+    <div id="recomendacoes"></div>
+</div>
+
+<script>
+// Injeta com segurança as variáveis enviadas pelo Flask através do Jinja2
+const perfilDataElement = document.getElementById('perfilData');
+const perfilIA = perfilDataElement ? perfilDataElement.dataset.perfil : 'Moderado';
+const analiseIA = perfilDataElement ? perfilDataElement.textContent.trim() : '';
+
+const perfis = {
+    Conservador: {
+        descricao: "Você prioriza segurança e preservação do capital.",
+        caracteristicas: ["Baixa tolerância ao risco", "Busca estabilidade", "Preservação do patrimônio", "Liquidez e segurança"],
+        investimentos: [["Renda Fixa", 70], ["Fundos DI", 15], ["Fundos Imobiliários", 10], ["Ações", 5]],
+        recomendacoes: ["Priorize títulos de renda fixa", "Mantenha reserva de emergência", "Evite exposição excessiva à renda variável", "Revise seus objetivos anualmente"]
+    },
+    Moderado: {
+        descricao: "Você busca equilíbrio entre segurança e rentabilidade.",
+        caracteristicas: ["Aceita risco controlado", "Busca diversificação", "Tolera alguma volatilidade", "Foco em crescimento sustentável"],
+        investimentos: [["Renda Fixa", 40], ["Fundos Multimercado", 25], ["Ações", 20], ["Fundos Imobiliários", 15]],
+        recomendacoes: ["Diversifique entre renda fixa e variável", "Considere fundos multimercado", "Invista em empresas consolidadas", "Rebalanceie sua carteira semestralmente"]
+    },
+    Arrojado: {
+        descricao: "Você aceita riscos maiores em busca de rentabilidade.",
+        caracteristicas: ["Alta tolerância ao risco", "Busca crescimento acelerado", "Aceita volatilidade", "Foco em longo prazo"],
+        investimentos: [["Ações", 50], ["Fundos Multimercado", 20], ["Fundos Imobiliários", 15], ["Renda Fixa", 15]],
+        recomendacoes: ["Aumente a exposição à renda variável", "Invista pensando no longo prazo", "Diversifique setores econômicos", "Monitore sua carteira regularmente"]
+    }
+};
+
+window.onload = function () {
+    // Caso ocorra falha ou retorne valor inválido, assume "Moderado" por segurança
+    const perfilSelecionado = perfis[perfilIA] ? perfilIA : "Moderado";
+    const perfil = perfis[perfilSelecionado];
+
+    document.getElementById("perfilBadge").innerText = perfilSelecionado;
+    document.getElementById("perfilDescricao").innerText = perfil.descricao;
+    document.getElementById("analiseIA").innerText = analiseIA || 'A análise detalhada da IA não pôde ser carregada.';
+
+    let htmlCaracteristicas = "";
+    perfil.caracteristicas.forEach(item => {
+        htmlCaracteristicas += `<div class="feature-item">• ${item}</div>`;
+    });
+    document.getElementById("caracteristicas").innerHTML = htmlCaracteristicas;
+
+    let htmlInvestimentos = "";
+    perfil.investimentos.forEach(item => {
+        htmlInvestimentos += `
+        <div class="investment">
+            <div class="line">
+                <span>${item[0]}</span>
+                <span>${item[1]}%</span>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" style="width:${item[1]}%;"></div>
+            </div>
+        </div>`;
+    });
+    document.getElementById("investimentos").innerHTML = htmlInvestimentos;
+
+    let htmlRecomendacoes = "";
+    perfil.recomendacoes.forEach((item, index) => {
+        htmlRecomendacoes += `
+        <div class="recommendation">
+            <div class="number">${index + 1}</div>
+            <div>${item}</div>
+        </div>`;
+    });
+    document.getElementById("recomendacoes").innerHTML = htmlRecomendacoes;
+};
+</script>
+</body>
+</html>
